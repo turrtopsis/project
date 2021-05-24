@@ -39,7 +39,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Timer
 
-    const deadLine = '2021-05-20';
+    const deadLine = '2021-06-20';
 
     function getTimeRemaining (endtime) {
         const   t = Date.parse(endtime) - Date.parse(new Date()),   
@@ -99,16 +99,19 @@ window.addEventListener('DOMContentLoaded', () => {
             btnModal = document.querySelectorAll('[data-modal]'),
             btnModalClose = document.querySelector('[data-close]');
 
+    function openModal() {
+        modal.classList.toggle('show');
+        document.body.style.overflow = "hidden";
+        clearInterval(modalTimerId);
+    }
 
     function closeModal () {
         modal.classList.toggle('show');
         document.body.style.overflow = "";
     }        
+
     btnModal.forEach(btn => {
-        btn.addEventListener('click', () => {
-            modal.classList.toggle('show');
-            document.body.style.overflow = "hidden";
-        });
+        btn.addEventListener('click', openModal);
     }); 
     btnModalClose.addEventListener('click', closeModal);
 
@@ -123,6 +126,19 @@ window.addEventListener('DOMContentLoaded', () => {
             closeModal();
         }
     });
+
+    const modalTimerId = setTimeout(openModal, 5000);
+
+    function showModalByScroll() {
+        if(window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
+            console.log('ss');
+            openModal();
+            window.removeEventListener('scroll', showModalByScroll);
+        }
+    }
+
+    window.addEventListener('scroll', showModalByScroll);
+
 
 });
 
